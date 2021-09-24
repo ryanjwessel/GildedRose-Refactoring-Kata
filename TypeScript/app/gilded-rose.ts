@@ -33,29 +33,17 @@ export class GildedRose {
         return item;
     }
 
-    decrementItemQuality(item) {
+    updateGeneralItemQuality(item) {
         if (
             item.name !== Inventory.AgedBrie &&
             item.name !== Inventory.BackstagePass &&
             item.name !== Inventory.Sulfuras
         ) {
-            if (item.quality > 0) {
-                item.quality = item.quality - 1;
+            if (item.sellIn < 0 && item.quality > 0) {
+              item.quality -= 1;
             }
-        }
-        return item;
-    }
-
-    decrementExpiredItemQuality(item) {
-        if (item.sellIn < 0) {
-            if (item.name != Inventory.AgedBrie) {
-                if (item.name != Inventory.BackstagePass) {
-                    if (item.quality > 0) {
-                        if (item.name != Inventory.Sulfuras) {
-                            item.quality = item.quality - 1;
-                        }
-                    }
-                }
+            if (item.quality > 0) {
+                item.quality -= 1;
             }
         }
         return item;
@@ -98,9 +86,8 @@ export class GildedRose {
     updateQuality() {
         return this.items
             .map(this.decrementSellIn)
-            .map(this.decrementItemQuality)
+            .map(this.updateGeneralItemQuality)
             .map(this.updateBrieQuality)
             .map(this.updateBackstagePassQuality)
-            .map(this.decrementExpiredItemQuality);
     }
 }
