@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Item, GildedRose } from '../app/gilded-rose';
+import { Item, GildedRose, Inventory } from '../app/gilded-rose';
 
 const simulateDays = (gildedRose: GildedRose, days: number) => {
     let items: Item[] = [];
@@ -24,33 +24,33 @@ describe('Gilded Rose', function () {
         });
     });
 
-    describe('Sulfuras', () => {
+    describe(Inventory.Sulfuras, () => {
         it('quality should never degrade', () => {
     
         });
     });
 
-    describe('Aged Brie', () => {
+    describe(Inventory.AgedBrie, () => {
         it('quality should increase in quality by 1 at the end of each day', () => {
-            const gildedRose = new GildedRose([ new Item('Aged Brie', 20, 0) ]);
+            const gildedRose = new GildedRose([ new Item(Inventory.AgedBrie, 20, 0) ]);
             const { items } = simulateDays(gildedRose, 20);
             expect(items[0].quality).to.equal(20);
         });
 
         it('quality should increase in quality by 2 at the end of each day after the sell by date has passed', () => {
-            const gildedRose = new GildedRose([ new Item('Aged Brie', 0, 0) ]);
+            const gildedRose = new GildedRose([ new Item(Inventory.AgedBrie, 0, 0) ]);
             const { items } = simulateDays(gildedRose, 20);
             expect(items[0].quality).to.equal(40);
         });
 
         it('quality should not increase beyond 50', () => {
-            const gildedRose = new GildedRose([ new Item('Aged Brie', 0, 0) ]);
+            const gildedRose = new GildedRose([ new Item(Inventory.AgedBrie, 0, 0) ]);
             const { items } = simulateDays(gildedRose, 100);
             expect(items[0].quality).to.equal(50);
         });
     });
 
-    describe('Backstage Passes', () => {
+    describe(Inventory.BackstagePass, () => {
         it('quality should increase by 1 at the end of each day when its sell by date is more than 10 days away', () => {
 
         });
