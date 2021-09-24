@@ -28,7 +28,7 @@ export class GildedRose {
 
     decrementSellIn(item) {
         if (item.name != Inventory.Sulfuras) {
-            item.sellIn = item.sellIn - 1;
+            item.sellIn -= 1;
         }
         return item;
     }
@@ -65,16 +65,16 @@ export class GildedRose {
             if (item.sellIn < 0) {
                 item.quality = 0;
             } else if (item.quality < 50) {
-                item.quality = item.quality + 1;
+                item.quality += 1;
                 if (item.name == Inventory.BackstagePass) {
                     if (item.sellIn < 10) {
                         if (item.quality < 50) {
-                            item.quality = item.quality + 1;
+                            item.quality += 1;
                         }
                     }
                     if (item.sellIn < 5) {
                         if (item.quality < 50) {
-                            item.quality = item.quality + 1;
+                            item.quality += 1;
                         }
                     }
                 }
