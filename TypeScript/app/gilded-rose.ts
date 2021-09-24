@@ -30,6 +30,7 @@ export class GildedRose {
         if (item.name != Inventory.Sulfuras) {
             item.sellIn = item.sellIn - 1;
         }
+        return item;
     }
 
     decrementItemQuality(item) {
@@ -81,8 +82,8 @@ export class GildedRose {
             .map(this.decrementItemQuality)
             .map(this.updateBrie)
             .map(this.updateBackstagePass)
+            .map(this.decrementSellIn)
             .map((item) => {
-                this.decrementSellIn(item);
                 if (item.sellIn < 0) {
                     if (item.name != "Aged Brie") {
                         if (item.name != Inventory.BackstagePass) {
