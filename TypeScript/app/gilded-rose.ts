@@ -4,6 +4,7 @@ export enum Inventory {
     Sulfuras = "Sulfuras, Hand of Ragnaros",
     DexterityVest = "+5 Dexterity Vest",
     MongooseElixir = "Elixir of the Mongoose",
+    ConjuredManaCake = "Conjured Mana Cake",
 }
 
 export class Item {
@@ -37,10 +38,11 @@ export class GildedRose {
         if (
             item.name !== Inventory.AgedBrie &&
             item.name !== Inventory.BackstagePass &&
-            item.name !== Inventory.Sulfuras
+            item.name !== Inventory.Sulfuras &&
+            item.name !== Inventory.ConjuredManaCake
         ) {
             if (item.sellIn < 0 && item.quality > 0) {
-              item.quality -= 1;
+                item.quality -= 1;
             }
             if (item.quality > 0) {
                 item.quality -= 1;
@@ -83,11 +85,24 @@ export class GildedRose {
         return item;
     }
 
+    updateConjuredItemQuality(item) {
+        if (item.name === Inventory.ConjuredManaCake) {
+            if (item.sellIn < 0 && item.quality > 0) {
+                item.quality -= 2;
+            }
+            if (item.quality > 0) {
+                item.quality -= 2;
+            }
+        }
+        return item;
+    }
+
     updateQuality() {
         return this.items
             .map(this.decrementSellIn)
             .map(this.updateGeneralItemQuality)
             .map(this.updateBrieQuality)
             .map(this.updateBackstagePassQuality)
+            .map(this.updateConjuredItemQuality);
     }
 }

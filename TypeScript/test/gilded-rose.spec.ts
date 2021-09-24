@@ -151,4 +151,33 @@ describe("Gilded Rose", () => {
                 expected: 50,
             }));
     });
+
+    describe(Inventory.ConjuredManaCake, () => {
+      it("the quality of items should degrade by 2 at the end of each day", () =>
+          qualityTest({
+              item: Inventory.ConjuredManaCake,
+              sellIn: 10,
+              quality: 20,
+              duration: 10,
+              expected: 0,
+          }));
+
+      it("the quality of items should degrade by 4 at the end of each day if their sell by date has passed", () =>
+          qualityTest({
+              item: Inventory.ConjuredManaCake,
+              sellIn: 0,
+              quality: 40,
+              duration: 10,
+              expected: 0,
+          }));
+
+      it("the quality of an item should never degrade below 0", () =>
+          qualityTest({
+              item: Inventory.ConjuredManaCake,
+              sellIn: 0,
+              quality: 20,
+              duration: 100,
+              expected: 0,
+          }));
+    })
 });
