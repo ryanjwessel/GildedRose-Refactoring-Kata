@@ -1,10 +1,10 @@
-export const Inventory = {
-    AgedBrie: 'Aged Brie',
-    BackstagePass: 'Backstage passes to a TAFKAL80ETC concert',
-    Sulfuras: 'Sulfuras, Hand of Ragnaros',
-    DexterityVest: '+5 Dexterity Vest',
-    MongooseElixir: 'Elixir of the Mongoose',
-} as const;
+export enum Inventory {
+    AgedBrie = 'Aged Brie',
+    BackstagePass = 'Backstage passes to a TAFKAL80ETC concert',
+    Sulfuras = 'Sulfuras, Hand of Ragnaros',
+    DexterityVest = '+5 Dexterity Vest',
+    MongooseElixir = 'Elixir of the Mongoose',
+};
 
 export class Item {
     name: string;
