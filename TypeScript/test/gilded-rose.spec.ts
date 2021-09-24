@@ -12,15 +12,21 @@ const simulateDays = (gildedRose: GildedRose, days: number) => {
 describe('Gilded Rose', function () {
     describe('General Items', () => {
         it('the quality of items should degrade by 1 at the end of each day', () => {
-    
+            const gildedRose = new GildedRose([ new Item(Inventory.MongooseElixir, 20, 20) ]);
+            const { items } = simulateDays(gildedRose, 20);
+            expect(items[0].quality).to.equal(0);
         });
     
-        it ('the quality of items should degrade by 2 at the end of each day if their sell by date has passed', () => {
-    
+        it('the quality of items should degrade by 2 at the end of each day if their sell by date has passed', () => {
+            const gildedRose = new GildedRose([ new Item(Inventory.MongooseElixir, 0, 20) ]);
+            const { items } = simulateDays(gildedRose, 10);
+            expect(items[0].quality).to.equal(0);
         });
     
         it('the quality of an item should never degrade below 0', () => {
-    
+            const gildedRose = new GildedRose([ new Item(Inventory.MongooseElixir, 0, 20) ]);
+            const { items } = simulateDays(gildedRose, 100);
+            expect(items[0].quality).to.equal(0);
         });
     });
 
