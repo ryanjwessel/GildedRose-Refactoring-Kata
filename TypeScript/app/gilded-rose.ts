@@ -86,12 +86,12 @@ export class GildedRose {
             if (item.quality < 50) {
                 item.quality = item.quality + 1;
                 if (item.name == Inventory.BackstagePass) {
-                    if (item.sellIn < 11) {
+                    if (item.sellIn < 10) {
                         if (item.quality < 50) {
                             item.quality = item.quality + 1;
                         }
                     }
-                    if (item.sellIn < 6) {
+                    if (item.sellIn < 5) {
                         if (item.quality < 50) {
                             item.quality = item.quality + 1;
                         }
@@ -111,10 +111,10 @@ export class GildedRose {
 
     updateQuality() {
         return this.items
+            .map(this.decrementSellIn)
             .map(this.decrementItemQuality)
             .map(this.updateBrie)
             .map(this.updateBackstagePass)
-            .map(this.decrementSellIn)
             .map(this.updateExpiredBrie)
             .map(this.handleExpiredBackstagePass)
             .map(this.decrementExpiredItemQuality);
