@@ -66,15 +66,17 @@ export class GildedRose {
             if (item.sellIn < 0 && item.quality < 50) {
                 item.quality += 2;
             } else if (item.quality < 50) {
-              item.quality += 1;
+                item.quality += 1;
             }
         }
         return item;
     }
 
-    updateBackstagePass(item) {
+    updateBackstagePassQuality(item) {
         if (item.name === Inventory.BackstagePass) {
-            if (item.quality < 50) {
+            if (item.sellIn < 0) {
+                item.quality = 0;
+            } else if (item.quality < 50) {
                 item.quality = item.quality + 1;
                 if (item.name == Inventory.BackstagePass) {
                     if (item.sellIn < 10) {
@@ -93,20 +95,12 @@ export class GildedRose {
         return item;
     }
 
-    handleExpiredBackstagePass(item) {
-        if (item.name === Inventory.BackstagePass && item.sellIn < 0) {
-            item.quality = 0;
-        }
-        return item;
-    }
-
     updateQuality() {
         return this.items
             .map(this.decrementSellIn)
             .map(this.decrementItemQuality)
             .map(this.updateBrieQuality)
-            .map(this.updateBackstagePass)
-            .map(this.handleExpiredBackstagePass)
+            .map(this.updateBackstagePassQuality)
             .map(this.decrementExpiredItemQuality);
     }
 }
