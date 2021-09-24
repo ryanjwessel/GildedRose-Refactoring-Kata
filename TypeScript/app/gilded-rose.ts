@@ -27,23 +27,31 @@ export class GildedRose {
     }
 
     decrementSellIn(item) {
-      if (item.name != Inventory.Sulfuras) {
-        item.sellIn = item.sellIn - 1;
-      }
+        if (item.name != Inventory.Sulfuras) {
+            item.sellIn = item.sellIn - 1;
+        }
+    }
+
+    decrementItemQuality(item) {
+        if (
+            item.name != Inventory.AgedBrie &&
+            item.name != Inventory.BackstagePass
+        ) {
+            if (item.quality > 0) {
+                if (item.name != Inventory.Sulfuras) {
+                    item.quality = item.quality - 1;
+                }
+            }
+        }
+        return item;
     }
 
     updateQuality() {
-        return this.items.map((item) => {
+        return this.items.map(this.decrementItemQuality).map((item) => {
             if (
-                item.name != Inventory.AgedBrie &&
-                item.name != Inventory.BackstagePass
+                item.name === Inventory.AgedBrie ||
+                item.name === Inventory.BackstagePass
             ) {
-                if (item.quality > 0) {
-                    if (item.name != Inventory.Sulfuras) {
-                        item.quality = item.quality - 1;
-                    }
-                }
-            } else {
                 if (item.quality < 50) {
                     item.quality = item.quality + 1;
                     if (item.name == Inventory.BackstagePass) {
