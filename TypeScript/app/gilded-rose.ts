@@ -35,12 +35,26 @@ export class GildedRose {
 
     decrementItemQuality(item) {
         if (
-            item.name != Inventory.AgedBrie &&
-            item.name != Inventory.BackstagePass
+            item.name !== Inventory.AgedBrie &&
+            item.name !== Inventory.BackstagePass &&
+            item.name !== Inventory.Sulfuras
         ) {
             if (item.quality > 0) {
-                if (item.name != Inventory.Sulfuras) {
-                    item.quality = item.quality - 1;
+                item.quality = item.quality - 1;
+            }
+        }
+        return item;
+    }
+
+    decrementExpiredItemQuality(item) {
+        if (item.sellIn < 0) {
+            if (item.name != Inventory.AgedBrie) {
+                if (item.name != Inventory.BackstagePass) {
+                    if (item.quality > 0) {
+                        if (item.name != Inventory.Sulfuras) {
+                            item.quality = item.quality - 1;
+                        }
+                    }
                 }
             }
         }
@@ -57,7 +71,7 @@ export class GildedRose {
     }
 
     updateExpiredBrie(item) {
-        if (item.name === "Aged Brie") {
+        if (item.name === Inventory.AgedBrie) {
             if (item.sellIn < 0) {
                 if (item.quality < 50) {
                     item.quality = item.quality + 1;
@@ -89,10 +103,10 @@ export class GildedRose {
     }
 
     handleExpiredBackstagePass(item) {
-      if (item.name === Inventory.BackstagePass && item.sellIn < 0) {
-        item.quality = 0;
-      }
-      return item;
+        if (item.name === Inventory.BackstagePass && item.sellIn < 0) {
+            item.quality = 0;
+        }
+        return item;
     }
 
     updateQuality() {
@@ -103,19 +117,6 @@ export class GildedRose {
             .map(this.decrementSellIn)
             .map(this.updateExpiredBrie)
             .map(this.handleExpiredBackstagePass)
-            .map((item) => {
-                if (item.sellIn < 0) {
-                    if (item.name != "Aged Brie") {
-                        if (item.name != Inventory.BackstagePass) {
-                            if (item.quality > 0) {
-                                if (item.name != Inventory.Sulfuras) {
-                                    item.quality = item.quality - 1;
-                                }
-                            }
-                        }
-                    }
-                }
-                return item;
-            });
+            .map(this.decrementExpiredItemQuality);
     }
 }
