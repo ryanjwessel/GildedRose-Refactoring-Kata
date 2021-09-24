@@ -32,7 +32,15 @@ describe('Gilded Rose', function () {
 
     describe(Inventory.Sulfuras, () => {
         it('quality should never degrade', () => {
-    
+            const gildedRose = new GildedRose([ new Item(Inventory.Sulfuras, 0, 80) ]);
+            const { items } = simulateDays(gildedRose, 100);
+            expect(items[0].quality).to.equal(80);
+        });
+
+        it('sellIn value should never decrease', () => {
+            const gildedRose = new GildedRose([ new Item(Inventory.Sulfuras, 100, 80) ]);
+            const { items } = simulateDays(gildedRose, 100);
+            expect(items[0].sellIn).to.equal(100);
         });
     });
 
