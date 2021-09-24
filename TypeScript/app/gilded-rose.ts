@@ -61,21 +61,12 @@ export class GildedRose {
         return item;
     }
 
-    updateBrie(item) {
+    updateBrieQuality(item) {
         if (item.name === Inventory.AgedBrie) {
-            if (item.quality < 50) {
-                item.quality = item.quality + 1;
-            }
-        }
-        return item;
-    }
-
-    updateExpiredBrie(item) {
-        if (item.name === Inventory.AgedBrie) {
-            if (item.sellIn < 0) {
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
-                }
+            if (item.sellIn < 0 && item.quality < 50) {
+                item.quality += 2;
+            } else if (item.quality < 50) {
+              item.quality += 1;
             }
         }
         return item;
@@ -113,9 +104,8 @@ export class GildedRose {
         return this.items
             .map(this.decrementSellIn)
             .map(this.decrementItemQuality)
-            .map(this.updateBrie)
+            .map(this.updateBrieQuality)
             .map(this.updateBackstagePass)
-            .map(this.updateExpiredBrie)
             .map(this.handleExpiredBackstagePass)
             .map(this.decrementExpiredItemQuality);
     }
