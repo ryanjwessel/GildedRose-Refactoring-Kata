@@ -1,23 +1,27 @@
 import { expect } from 'chai';
 import { Item, GildedRose } from '../app/gilded-rose';
 
+const simulateDays = (gildedRose: GildedRose, days: number) => {
+    let items: Item[] = [];
+    for (let i = 0; i < days; i += 1) {
+        items = gildedRose.updateQuality();
+    }
+    return { items };
+}
+
 describe('Gilded Rose', function () {
-    it('should foo', function() {
-        const gildedRose = new GildedRose([ new Item('foo', 0, 0) ]);
-        const items = gildedRose.updateQuality();
-        expect(items[0].name).to.equal('fixme');
-    });
-
-    it('the quality of items should degrade by 1 at the end of each day', () => {
-
-    });
-
-    it ('the quality of items should degrade by 2 at the end of each day if their sell by date has passed', () => {
-
-    });
-
-    it('the quality of an item should never degrade below 0', () => {
-
+    describe('General Items', () => {
+        it('the quality of items should degrade by 1 at the end of each day', () => {
+    
+        });
+    
+        it ('the quality of items should degrade by 2 at the end of each day if their sell by date has passed', () => {
+    
+        });
+    
+        it('the quality of an item should never degrade below 0', () => {
+    
+        });
     });
 
     describe('Sulfuras', () => {
@@ -28,11 +32,21 @@ describe('Gilded Rose', function () {
 
     describe('Aged Brie', () => {
         it('quality should increase in quality by 1 at the end of each day', () => {
+            const gildedRose = new GildedRose([ new Item('Aged Brie', 20, 0) ]);
+            const { items } = simulateDays(gildedRose, 20);
+            expect(items[0].quality).to.equal(20);
+        });
 
+        it('quality should increase in quality by 2 at the end of each day after the sell by date has passed', () => {
+            const gildedRose = new GildedRose([ new Item('Aged Brie', 0, 0) ]);
+            const { items } = simulateDays(gildedRose, 20);
+            expect(items[0].quality).to.equal(40);
         });
 
         it('quality should not increase beyond 50', () => {
-
+            const gildedRose = new GildedRose([ new Item('Aged Brie', 0, 0) ]);
+            const { items } = simulateDays(gildedRose, 100);
+            expect(items[0].quality).to.equal(50);
         });
     });
 
