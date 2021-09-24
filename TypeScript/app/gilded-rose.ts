@@ -26,6 +26,12 @@ export class GildedRose {
         this.items = items;
     }
 
+    decrementSellIn(item) {
+      if (item.name != Inventory.Sulfuras) {
+        item.sellIn = item.sellIn - 1;
+      }
+    }
+
     updateQuality() {
         return this.items.map((item) => {
             if (
@@ -54,9 +60,7 @@ export class GildedRose {
                     }
                 }
             }
-            if (item.name != Inventory.Sulfuras) {
-                item.sellIn = item.sellIn - 1;
-            }
+            this.decrementSellIn(item);
             if (item.sellIn < 0) {
                 if (item.name != "Aged Brie") {
                     if (item.name != Inventory.BackstagePass) {
